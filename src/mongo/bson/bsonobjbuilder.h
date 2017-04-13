@@ -667,7 +667,7 @@ public:
     void appendKeys(const BSONObj& keyPattern, const BSONObj& values);
 
     static std::string MONGO_CLIENT_FUNC numStr(int i) {
-        if (i >= 0 && i < 100 && numStrsReady)
+        if (i >= 0 && i < numStrsSize && numStrsReady)
             return numStrs[i];
         StringBuilder o;
         o << i;
@@ -758,7 +758,8 @@ private:
     BSONSizeTracker* _tracker;
     bool _doneCalled;
 
-    static const std::string numStrs[100];  // cache of 0 to 99 inclusive
+    static const int numStrsSize = 1024;
+    static const std::string numStrs[numStrsSize];  // cache for arrays up to 1024
     static bool numStrsReady;               // for static init safety.
 };
 
